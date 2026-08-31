@@ -1,58 +1,90 @@
-Loops : while, do-while, for, for-each
+# Loops
 
+## while
+Runs as long as condition is true.
 
-// while — runs as long as condition is true
+```java
 int i = 0;
-while(i < 4){
+while(i < 4) {
     System.out.println(i);
     i++;
 }
+```
 
 
-// do-while — runs at least once, checks condition after
-i = 0;
+## do-while
+Runs at least once — checks condition after each iteration.
+
+```java
+int i = 0;
 do {
     System.out.println(i);
     i++;
 } while(i < 4);
+```
 
 
-// for — when number of iterations is known
-for(int j = 0; j < 4; j++){
-    System.out.println(j);
+## for
+Used when number of iterations is known.
+
+```java
+for(int i = 0; i < 4; i++) {
+    System.out.println(i);
 }
+```
 
 
-// for-each — used to iterate over arrays and collections
+## for-each
+Used to iterate over arrays and collections.
+
+```java
 int[] nums = {10, 20, 30, 40};
-for(int n : nums){
+for(int n : nums) {
     System.out.println(n);
 }
 
 String[] names = {"Alice", "Bob", "Charlie"};
-for(String name : names){
+for(String name : names) {
     System.out.println(name);
 }
+```
 
 
-// break — exits the loop immediately
-for(int j = 0; j < 10; j++){
-    if(j == 5) break;
-    System.out.println(j);   // prints 0 to 4
+## break & continue
+
+### break — exits the loop immediately
+```java
+for(int i = 0; i < 10; i++) {
+    if(i == 5) break;
+    System.out.println(i);   // prints 0 to 4
 }
+```
 
-
-// continue — skips current iteration, moves to next
-for(int j = 0; j < 5; j++){
-    if(j == 2) continue;
-    System.out.println(j);   // prints 0, 1, 3, 4  (skips 2)
+### continue — skips current iteration, moves to next
+```java
+for(int i = 0; i < 5; i++) {
+    if(i == 2) continue;
+    System.out.println(i);   // prints 0, 1, 3, 4  (skips 2)
 }
+```
 
 
-// nested loops
-for(int row = 1; row <= 3; row++){
-    for(int col = 1; col <= 3; col++){
+## Nested Loops
+```java
+for(int row = 1; row <= 3; row++) {
+    for(int col = 1; col <= 3; col++) {
         System.out.print(row * col + " ");
     }
     System.out.println();
 }
+```
+
+
+## Quick Comparison
+
+| Loop      | Use when                                  | Runs at least once |
+|-----------|-------------------------------------------|--------------------|
+| while     | condition checked before each iteration   | NO                 |
+| do-while  | condition checked after each iteration    | YES                |
+| for       | number of iterations is known             | NO                 |
+| for-each  | iterating over array / collection         | NO                 |
