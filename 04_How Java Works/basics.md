@@ -1,39 +1,125 @@
+# How Java Works
 
-JDK : java development kit 
+## Java Platform Components
 
-JVM : Java virtual Machine
-JRE : Java runtime environment
+### JDK (Java Development Kit)
+The full toolkit for developing Java applications. It includes the compiler (`javac`), debugger, and other dev tools.
 
-JRE provide extra library of Application 
+### JRE (Java Runtime Environment)
+Provides the libraries and runtime needed to **run** Java programs. Does not include the compiler.
 
-----------------------------------------------
+### JVM (Java Virtual Machine)
+Executes Java bytecode. It is platform-specific, but bytecode is platform-independent.
 
-JDK contains -> JRE contains -> JVM 
+**Containment hierarchy:**
 
-------------------------------------------------
+```
+JDK  ⊃  JRE  ⊃  JVM
+```
 
-JVM : we have multiples resources 
+---
 
-Heap memory : Objects/instance variables go in Heap memory.
+## Compilation & Execution Flow
 
-Stack memory : Method stacks are created in Stack memory. All the local variables of method will be in this method stack
+```
+Source Code         Compiler       Bytecode         Runtime
+  file.java   →    (javac)    →   file.class   →   JVM executes
+```
 
-There exist also main stack, which contain reference of all objects.
+- The Java compiler converts `.java` source files into `.class` bytecode files.
+- For every class defined in a `.java` file, JVM creates a **separate `.class` file**.
+- The JVM interprets/compiles bytecode at runtime — this is what makes Java **platform independent**.
 
-* we can call static variable directly like className.VariableName.
+> "Write Once, Run Anywhere" — as long as a JVM exists for the target platform, Java bytecode can run on it.
 
+---
 
-* For every class in java file, JVM create seaparate class file.  These class file are also called bytecode, and these run on JVM.
+## JVM Memory Model
 
+### Heap Memory
+- Stores **objects** and **instance variables**.
+- Shared across all threads.
+- Managed by the **Garbage Collector**, which automatically frees memory for unreferenced objects.
 
-file.java -> compiler -> file.class -> JVM(run byteCode)
+### Stack Memory
+- Each method call creates a new **stack frame**.
+- Stores **local variables** and method call info.
+- Stack frame is destroyed when the method returns.
+- Each thread has its own stack.
 
-bytecode run on JVM. Java is platform independent, everywhere JVM exist, we can run the java file.
---- That's why java is called plaform independent. ----
+### Method Area (Class Area)
+- Stores **class-level data**: class structure, static variables, method bytecode.
+- Shared across all threads.
 
-(Machine should support JVM)
+### Memory Layout Example
 
-------------------------------------------
+```java
+class Keyboard {
+    int keys;       // instance variable → Heap
+    static int count = 0; // static variable → Method Area
 
+    public void press() {
+        int volume = 5; // local variable → Stack (press() frame)
+    }
+}
+```
 
+---
 
+## Static Variables & Methods
+
+- Static members belong to the **class**, not to any instance.
+- Accessed directly via `ClassName.memberName` without creating an object.
+- Stored in the **Method Area**.
+
+```java
+class Keyboard {
+    static int count = 0;
+
+    public Keyboard() {
+        count++; // shared across all instances
+    }
+}
+
+// Access without an object:
+System.out.println(Keyboard.count);
+```
+
+---
+
+## Class Loading
+
+When a Java program runs, the **ClassLoader** (part of JVM) loads `.class` files into memory in three steps:
+
+1. **Loading** — reads the `.class` file and brings it into memory.
+2. **Linking** — verifies bytecode, allocates memory for static variables.
+3. **Initialization** — executes static initializers and assigns static variable values.
+
+---
+
+## JIT Compiler (Just-In-Time)
+
+The JVM includes a **JIT compiler** that optimizes performance at runtime:
+
+- Interprets bytecode initially.
+- Detects "hot" code (frequently executed) and compiles it to **native machine code**.
+- Subsequent calls use the faster native version.
+
+```
+Bytecode → JVM Interpreter → (hot path) → JIT Compiler → Native Code
+```
+
+---
+
+## Summary
+
+| Component | Role |
+|---|---|
+| JDK | Develop + compile Java programs |
+| JRE | Run Java programs (includes JVM + libraries) |
+| JVM | Execute bytecode; manages memory and threads |
+| Heap | Object and instance variable storage |
+| Stack | Method frames and local variables |
+| Method Area | Class metadata and static members |
+| JIT Compiler | Optimizes hot bytecode to native machine code |
+| ClassLoader | Loads `.class` files into JVM at runtime |
