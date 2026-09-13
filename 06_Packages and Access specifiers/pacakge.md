@@ -1,41 +1,143 @@
+# Packages & Access Modifiers
 
+## Packages
 
-packages help to differentiate application.
+A package is a namespace that groups related classes and interfaces — similar to folders in a file system.
 
-packages can be seen individual folder
+**Benefits:**
+- Avoids naming conflicts between classes
+- Organizes code into logical modules
+- Controls access with access modifiers
 
-we can create package inside package (folder inside folder)
+### Creating a Package
 
+Declare the package as the **first statement** in a `.java` file:
 
--- we can use class of one package in another by importing it.
+```java
+package com.lavkesh.src.app;
 
-how to create package : 
+public class Keyboard {
+    // class body
+}
+```
 
-package com.lavkesh.src.app // it is created like it
+### Nested Packages
 
+Packages can be nested (sub-packages), mirroring a directory structure:
 
+```
+com/
+└── lavkesh/
+    └── src/
+        └── app/
+            └── Keyboard.java
+```
 
+### Importing a Package
 
---------------------------------------------------------------
-ACCESS MODIFIERS
---------------------------------------------------------------
-default variables are only accessed with in same package
+Use another package's class with the `import` statement:
 
-In order access in some other package, we have to make it public : 
+```java
+import com.lavkesh.src.app.Keyboard;       // import specific class
+import com.lavkesh.src.app.*;              // import all classes in package
+```
 
-Make variables protected in order to get access in it's subclass.
+### Built-in Java Packages
 
+| Package | Contents |
+|---|---|
+| `java.lang` | Core classes (`String`, `Math`, `Object`) — auto-imported |
+| `java.util` | Collections, `ArrayList`, `HashMap`, `Scanner` |
+| `java.io` | File and stream I/O |
+| `java.net` | Networking |
+| `java.sql` | Database connectivity (JDBC) |
 
-| Scope                        | public | default | protected | private |
-|------------------------------|--------|---------|-----------|---------|
-| same class                   | YES    | YES     | YES       | YES     |
-| same package subclass        | YES    | YES     | YES       | NO      |
-| same package non-subclass    | YES    | YES     | YES       | NO      |
-| different package subclass   | YES    | NO      | YES       | NO      |
-| diff package non-subclass    | YES    | NO      | NO        | NO      |
+---
 
+## Access Modifiers
 
+Access modifiers control the visibility of classes, fields, constructors, and methods.
 
+### Scope Table
 
-with final keyword, we can't override functions : 
-with final clas, we can't inherit class :
+| Scope | `public` | `protected` | `default` | `private` |
+|---|---|---|---|---|
+| Same class | ✅ | ✅ | ✅ | ✅ |
+| Same package subclass | ✅ | ✅ | ✅ | ❌ |
+| Same package non-subclass | ✅ | ✅ | ✅ | ❌ |
+| Different package subclass | ✅ | ✅ | ❌ | ❌ |
+| Different package non-subclass | ✅ | ❌ | ❌ | ❌ |
+
+### Quick Reference
+
+- `public` — accessible from everywhere
+- `protected` — accessible within the same package and subclasses (even across packages)
+- `default` (no keyword) — accessible only within the same package
+- `private` — accessible only within the same class
+
+```java
+public class Keyboard {
+    public int keys;        // accessible everywhere
+    protected String color; // accessible in subclasses
+    int weight;             // default: same package only
+    private String serial;  // this class only
+
+    private String getSerial() { return serial; } // encapsulation
+}
+```
+
+---
+
+## `final` Keyword
+
+`final` can be applied to variables, methods, and classes.
+
+### `final` Variable
+Value cannot be reassigned after initialization.
+
+```java
+final int MAX_KEYS = 104;
+// MAX_KEYS = 200; // compile error
+```
+
+### `final` Method
+Cannot be overridden by a subclass.
+
+```java
+class Keyboard {
+    public final void press() {
+        System.out.println("Key pressed");
+    }
+}
+
+class AdvKeyboard extends Keyboard {
+    // public void press() { } // compile error
+}
+```
+
+### `final` Class
+Cannot be subclassed (inherited).
+
+```java
+final class Keyboard { }
+
+// class AdvKeyboard extends Keyboard { } // compile error
+```
+
+> `String` in Java is a `final` class — it cannot be extended.
+
+---
+
+## Summary
+
+| Concept | Purpose |
+|---|---|
+| Package | Organizes classes, avoids naming conflicts |
+| `import` | Brings classes from other packages into scope |
+| `public` | Accessible from anywhere |
+| `protected` | Accessible in same package + subclasses |
+| `default` | Accessible within same package only |
+| `private` | Accessible within same class only |
+| `final` variable | Constant — value cannot change |
+| `final` method | Cannot be overridden |
+| `final` class | Cannot be inherited |
